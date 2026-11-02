@@ -794,7 +794,16 @@ Things that bit us or contributors, so they don't bite you. Commands use `tools/
   43T6C (G10, Realtek, build `STT2.230203.001`) a mic press with `com.google.android.tv.remote.service`
   disabled logs `Unable to start service Intent { act=...AtvSearchAssistantService ... } U=0: not found`
   — that service lives in the package — and re-enabling only it, with every other line applied, brought
-  the button back, so `tcl-g10-google-tv` keeps it now.
+  the button back, so `tcl-g10-google-tv` keeps it now. A second remote can fail the same way with both
+  packages enabled, and then it is the remote: on this box the one it shipped with opens a voice audio
+  service (`cr_AudioInput … FD=<n>`, and `AudioService: setWiredDeviceConnectionState(type:80000010 …)`
+  as the button goes down), while another "Xiaomi RC" that pairs and drives every button sends only
+  `KEYCODE_VOICE_COMMAND` and no audio — logcat shows `AudioProviderService: No active audio device
+  available`, `Passing invalid FD`, then `AudioFd is invalid. Falling back to AudioRecord` and
+  `LIBAS_INTERACTION_NO_SPEECH_DETECTED`. `persist.support.nano.voice` reading `not support` does not
+  tell them apart: the working remote reads the same, and the shell cannot write a `persist.` property
+  without root. The Google TV app on a phone (`com.google.android.tv.remote.service`) covers voice
+  meanwhile; a replacement remote has to be one that opens the voice service.
 - **The remote's voice button stops working after the package that owns Home is installed or updated,
   and comes back after one reboot** ([#1869](https://github.com/Gathin23/cleanyourtv/issues/1869), a TCL
   BeyondTV2, board `rtd285o`, Android TV 11, `PPR1.180610.011`/`AR05`, the same model and build as

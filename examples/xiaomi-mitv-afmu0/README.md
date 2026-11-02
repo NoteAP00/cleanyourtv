@@ -15,7 +15,15 @@ Firmware: `UKG3.250826.001 / V816.0.11.0.UZFAABX` (HyperOS), 2 GB RAM, `ro.adb.s
 
 The Bluetooth remote ("Xiaomi RC", `Vendor_2717_Product_32b9.kl`) behaves as follows once the stock launcher is disabled:
 
-- **Home, Back, D-pad, and Mic:** Work out of the box (Google Assistant kept).
+- **Home, Back and D-pad:** Work out of the box.
+- **Mic:** Works on the remote the box shipped with. That remote opens a voice audio service when the
+  button goes down, and Assistant records from it: `logcat -s AtvRemote.AudioProviderService cr_AudioInput AudioService`
+  shows a `cr_AudioInput … FD=` line and `AudioService` reports the remote as an input device
+  (`setWiredDeviceConnectionState(type:80000010 …)`). A second "Xiaomi RC", bought later for this box,
+  pairs and drives every button, but its mic button only sends `KEYCODE_VOICE_COMMAND`: no audio follows,
+  the box logs `No active audio device available` and `Passing invalid FD`, Assistant falls back to
+  `AudioRecord` and reports no speech. Same model name on both, different Bluetooth profile — see
+  [Troubleshooting](../../docs/TROUBLESHOOTING.md#working-on-the-tv), "The remote's mic button does nothing…".
 - **Netflix:** Sends `BUTTON_6` (scancode 240 / 416) and starts Netflix directly.
 - **YouTube:** Sends `BUTTON_3` (scancode 425), which only the stock launcher answered.
 - **Prime Video:** Sends `BUTTON_7` (scancode 207), which only the stock launcher answered.
