@@ -7,16 +7,17 @@
 # Factory-disabled on this unit BEFORE anything was changed, so leave both disabled when restoring:
 #   com.mediatek.wwtv.tvcenter        (no tuner on a projector; also the stock LauncherX Live TV entry)
 #   com.google.android.youtube.tvmusic
-# Prime Video (com.amazon.amazonvideo.livingroom) is ENABLED on this unit, unlike the L1 Pro
-# (examples/xiaomi-smart-projector-l1-pro-tianshan) where it ships disabled. It is kept here because the
-# owner uses it, so this list does not disable it.
+# Prime Video (com.amazon.amazonvideo.livingroom) ships ENABLED on this unit, unlike the L1 Pro
+# (examples/xiaomi-smart-projector-l1-pro-tianshan) where it ships disabled. The owner does not use it,
+# so it is disabled here with the preloads below; restore.sh switches it back on with them.
 #
 # Apply:   TV_HOST=<tv ip> tools/disable.sh examples/xiaomi-smart-projector-c025rgn/debloat.txt
 # Undo:    TV_HOST=<tv ip> tools/restore.sh examples/xiaomi-smart-projector-c025rgn/debloat.txt
 # Everything is DISABLED for user 0, never uninstalled. Comment out any line you want to keep.
 #
 # How far this was tested: applied in two batches in one session and checked after one reboot. All 19
-# were still disabled afterwards and the firmware re-enabled none. Netflix, YouTube, AIS Play, Viu,
+# packages in those batches were still disabled afterwards and the firmware re-enabled none. Prime Video
+# was switched off afterwards and has not had a reboot check of its own. Netflix, YouTube, AIS Play, Viu,
 # Apple Music, the Play Store, Google Assistant, Chromecast, Wi-Fi, Bluetooth remote, focus and keystone
 # were confirmed working, and the real remote's Home button was pressed. That is one session, not the
 # several days CONTRIBUTING asks for, so treat this as a starting point rather than a long soak.
@@ -35,7 +36,7 @@
 # Assistant (katniss, tv.assistant), Chromecast (com.google.android.apps.mediashell), TalkBack, the
 # Ambient screensaver (com.google.android.apps.tv.dreamx, the active screensaver_components here),
 # com.google.android.syncadapters.calendar (the L1 Pro list disables it; this set keeps it),
-# the three uk.co.freeview.* services, and Netflix, YouTube, Prime Video, Apple Music, AIS Play and Viu.
+# the three uk.co.freeview.* services, and Netflix, YouTube, Apple Music, AIS Play and Viu.
 # Never launch com.fengmi.testsuite or mediatek.factorymenu.ui (factory tools; both are present here).
 # No firmware updater package of its own was found on this build.
 #
@@ -90,6 +91,7 @@ com.android.healthconnect.controller
 com.android.health.connect.backuprestore
 
 # Preloaded apps the owner does not use (all shipped enabled on this unit)
+com.amazon.amazonvideo.livingroom            # Prime Video, see the header
 com.gmm.onehd                                # GMM One HD, Thai VOD
 com.apkpure.aegon                            # APKPure store
 com.tcl.browser                              # TCL browser, no remote-friendly UI
